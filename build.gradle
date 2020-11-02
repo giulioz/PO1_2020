@@ -1,6 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.3.5.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id "com.github.node-gradle.node" version "3.0.0-rc3"
 	id 'java'
 }
 
@@ -12,6 +13,30 @@ repositories {
 	mavenCentral()
 }
 
+node {
+	nodeProjectDir = file("${project.projectDir}/src/main/resources/board-react-app")
+	download = true
+}
+
+task installDeps(type: YarnTask) {
+	args = ['install']
+}
+
+task buildReact(type: YarnTask) {
+	dependsOn installDeps
+	args = ['build']
+}
+
+task copyStatic(type: Copy) {
+	dependsOn buildReact
+	from 'src/main/resources/board-react-app/build'
+	into 'src/main/resources/static'
+}
+
+processResources {
+	dependsOn copyStatic
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
@@ -20,21 +45,4 @@ dependencies {
 
 test {
 	useJUnitPlatform()
-}
-
-task yarnInstall(type: Exec) {
-	workingDir 'src/main/resources/board-react-app'
-	commandLine 'yarn', 'install'
-}
-
-task yarnBuild(type: Exec) {
-	dependsOn yarnInstall
-	workingDir 'src/main/resources/board-react-app'
-	commandLine 'yarn', 'build'
-}
-
-task copyStatic(type: Copy) {
-	dependsOn yarnBuild
-	from 'src/main/resources/board-react-app/build'
-	into 'src/main/resources/static'
 }
