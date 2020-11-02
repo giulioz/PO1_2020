@@ -6,7 +6,7 @@ package it.unive.dais.po1.exercise1;
  * @since 1.0
  */
 public class TicTacToeBoard {
-    private final Mark[][] board;
+    private Mark[][] board;
 
     public TicTacToeBoard() {
         board = new Mark[3][3];
@@ -83,12 +83,10 @@ public class TicTacToeBoard {
      * @return true iff the board is full
      */
     public boolean isFull() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (board[i][j] == null)
+        for(int x = 0; x < board.length; x++)
+            for(int y = 0; y < board.length; y++)
+                if(this.getMark(x, y)==null)
                     return false;
-            }
-        }
         return true;
     }
 

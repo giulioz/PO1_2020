@@ -1,5 +1,7 @@
 package it.unive.dais.po1.exercise2;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * This class represents a mark in the tic-tac-toe board.
  *
@@ -32,6 +34,7 @@ public class Mark {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         if(this==CIRCLE)
             return "O";

@@ -72,4 +72,8 @@ abstract public class Board {
                     return false;
         return true;
     }
+
+    public Mark[][] getData() {
+        return board;
+    }
 }

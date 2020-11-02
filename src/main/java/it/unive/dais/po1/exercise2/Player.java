@@ -24,4 +24,8 @@ abstract public class Player {
      * @return true if the player was able to
      */
     abstract public boolean play(Board board);
+
+    public Mark getOwnMark() {
+        return ownMark;
+    }
 }
