@@ -26,7 +26,7 @@ function useGameState() {
 
   useEffect(() => {
     if (ws.current === null) {
-      ws.current = new WebSocket("ws://localhost:8080");
+      ws.current = new WebSocket("ws://localhost:8080/ws");
       ws.current.onmessage = (message) => {
         const payload = JSON.parse(message.data);
         setGameState(payload);
