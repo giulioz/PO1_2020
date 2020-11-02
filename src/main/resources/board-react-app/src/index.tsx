@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import "./style.css";
@@ -39,6 +40,9 @@ function useGameState() {
 
 function App() {
   const gameState = useGameState();
+  const winner = gameState?.winner;
+  const full = gameState?.currentBoard.full;
+  const outcome = full || winner;
 
   return (
     <>
@@ -48,13 +52,17 @@ function App() {
           {gameState.currentBoard.data.map((row, i) => (
             <div key={i}>
               {row.map((cell, i) => (
-                <div className="cell" key={i}>{cell}</div>
+                <div className="cell" key={i}>
+                  {cell}
+                </div>
               ))}
             </div>
           ))}
         </div>
       )}
-      {/* <button>Next Move</button> */}
+      <div className={clsx("badge", outcome && "accentBadge")}>
+        {winner ? `${winner} won!` : full ? `tie!` : `playing`}
+      </div>
     </>
   );
 }
