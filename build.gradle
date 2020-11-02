@@ -21,3 +21,20 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+task yarnInstall(type: Exec) {
+	workingDir 'src/main/resources/board-react-app'
+	commandLine 'yarn', 'install'
+}
+
+task yarnBuild(type: Exec) {
+	dependsOn yarnInstall
+	workingDir 'src/main/resources/board-react-app'
+	commandLine 'yarn', 'build'
+}
+
+task copyStatic(type: Copy) {
+	dependsOn yarnBuild
+	from 'src/main/resources/board-react-app/build'
+	into 'src/main/resources/static'
+}
